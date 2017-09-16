@@ -22,17 +22,16 @@ authRoutes.route("/create/user").post(bodyParser.json(), async (request, respons
     const key = crypto.randomBytes(32).toString("hex");
 
     await new User({
-        ...USER_DEFAULT,
-        "name": request.body.name,
-        "medicalConditions": request.body.medicalConditions,
-        "allergies": request.body.allergies,
-        "medications": request.body.medications,
-        "weight": request.body.weight,
-        "height": request.body.height,
-        "age": request.body.age,
-        "kids": request.body.kids,
-        "animals": request.body.animals,
-        "spouse": request.body.spouse,
+        "name": request.body.name || USER_DEFAULT.name,
+        "medicalConditions": request.body.medicalConditions || USER_DEFAULT.medicalConditions,
+        "allergies": request.body.allergies || USER_DEFAULT.allergies,
+        "medications": request.body.medications || USER_DEFAULT.medications,
+        "weight": request.body.weight || USER_DEFAULT.weight,
+        "height": request.body.height || USER_DEFAULT.height,
+        "age": request.body.age || USER_DEFAULT.age,
+        "kids": request.body.kids || USER_DEFAULT.kids,
+        "animals": request.body.animals || USER_DEFAULT.animals,
+        "spouse": request.body.spouse || USER_DEFAULT.spouse,
 
         "authorizationKey": key
     }).save();
@@ -54,11 +53,10 @@ authRoutes.route("/create/firstresponder").post(bodyParser.json(), async (reques
     const key = crypto.randomBytes(32).toString("hex");
 
     await new FirstResponder({
-        ...FIRST_RESPONDER_DEFAULT,
-        "name": request.body.name,
-        "hasBoat": request.body.hasBoat,
-        "hasCar": request.body.hasCar,
-        "physicality": request.body.physicality,
+        "name": request.body.name || FIRST_RESPONDER_DEFAULT.name,
+        "hasBoat": request.body.hasBoat || FIRST_RESPONDER_DEFAULT.hasBoat,
+        "hasCar": request.body.hasCar || FIRST_RESPONDER_DEFAULT.hasCar,
+        "physicality": request.body.physicality || FIRST_RESPONDER_DEFAULT.physicality,
 
         "authorizationKey": key
     }).save();
