@@ -17,6 +17,8 @@ export interface IUser {
     kids: number;
     animals: number;
     spouse: boolean;
+
+    authorizationKey: string;
 }
 
 export const User = mongoose.model<IUser & mongoose.Document>("User", new mongoose.Schema({
@@ -29,7 +31,9 @@ export const User = mongoose.model<IUser & mongoose.Document>("User", new mongoo
     age: Number,
     kids: Number,
     animals: Number,
-    spouse: Boolean
+    spouse: Boolean,
+
+    authorizationKey: String
 }));
 
 export interface IFirstResponder {

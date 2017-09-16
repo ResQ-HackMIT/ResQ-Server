@@ -11,29 +11,12 @@ process.on("unhandledRejection", err => {
 });
 
 
-// Expected post sample:
-// {
-// 		"name": "Aaron Vontell",
-// 		"medicalConditions": "Obesity II, Diabetes",
-//     	"allergies": "Peanut Butter, Cats",
-//     	"medications": "Laxatives, Penicillin",
-// 		"weight": "260",
-//     	"height": "5'11\"",
-// 		"age": "20",
-//     	"kids": "0",
-//     	"animals": "0",
-//     	"spouse": "false"
-// }
-// 
-// Expected return:
-//  {
-// 	 	"success": "true"
-//  }
-app.route("/api/create-account").get((request, response) => {
-	response.json({
-		"success": "true"
-	})
-});
+const apiRouter = express.Router();
+
+import { authRoutes } from "./auth";
+apiRouter.use("/auth", authRoutes);
+
+app.use("/api", apiRouter);
 
 app.route("/version").get((request, response) => {
 	response.json({
