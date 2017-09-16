@@ -1,7 +1,7 @@
 import * as crypto from "crypto";
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { IUser, User } from "./schema";
+import { IUser, User, IFirstResponder, FirstResponder } from "./schema";
 
 export const authRoutes = express.Router();
 
@@ -33,6 +33,32 @@ authRoutes.route("/create/user").post(bodyParser.json(), async (request, respons
         "kids": request.body.kids,
         "animals": request.body.animals,
         "spouse": request.body.spouse,
+
+        "authorizationKey": key
+    }).save();
+
+    response.status(201).json({
+        "success": true,
+        "authorizationKey": key
+    });
+});
+
+const FIRST_RESPONDER_DEFAULT: Partial<IFirstResponder> = {
+    "name": "Cooper Pellaton",
+    "hasBoat": false,
+    "hasCar": false,
+    "physicality": 0
+};
+
+authRoutes.route("/create/firstresponder").post(bodyParser.json(), async (request, response) => {
+    const key = crypto.randomBytes(32).toString("hex");
+
+    await new FirstResponder({
+        ...FIRST_RESPONDER_DEFAULT,
+        "name": request.body.name,
+        "hasBoat": request.body.hasBoat,
+        "hasCar": request.body.hasCar,
+        "physicality": request.body.physicality,
 
         "authorizationKey": key
     }).save();
