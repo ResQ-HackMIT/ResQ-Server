@@ -18,7 +18,7 @@ const USER_DEFAULT: Partial<IUser> = {
     "spouse": false
 };
 
-authRoutes.route("/create/user").post(bodyParser.json(), async (request, response) => {
+authRoutes.route("/user").post(bodyParser.json(), async (request, response) => {
     const key = crypto.randomBytes(32).toString("hex");
 
     await new User({
@@ -49,7 +49,7 @@ const FIRST_RESPONDER_DEFAULT: Partial<IFirstResponder> = {
     "physicality": 0
 };
 
-authRoutes.route("/create/firstresponder").post(bodyParser.json(), async (request, response) => {
+authRoutes.route("/firstresponder").post(bodyParser.json(), async (request, response) => {
     const key = crypto.randomBytes(32).toString("hex");
 
     await new FirstResponder({
