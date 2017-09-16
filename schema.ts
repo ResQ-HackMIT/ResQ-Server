@@ -2,10 +2,13 @@ import * as mongoose from "mongoose";
 
 (mongoose as any).Promise = global.Promise;
 mongoose.connect("mongodb://localhost/resq", {
-        useMongoClient: true
-    }
-    as mongoose.ConnectionOptions);
+    useMongoClient: true
+} as mongoose.ConnectionOptions);
 
+export interface ILocation {
+    lat: number;
+    long: number;
+}
 export interface IUser {
     _id: mongoose.Types.ObjectId;
     name: string;
@@ -19,22 +22,11 @@ export interface IUser {
     animals: number;
     spouse: boolean;
 
+    location: ILocation[];
     authorizationKey: string;
 }
 
-export interface ILocation {
-    userAuthKey: string;
-    lat: number;
-    long: number;
-}
-
-export const Location = mongoose.model < ILocation & mongoose.Document > ("Location", new mongoose.Schema({
-    userAuthKey: String,
-    lat: Number,
-    long: Number
-}));
-
-export const User = mongoose.model < IUser & mongoose.Document > ("User", new mongoose.Schema({
+export const User = mongoose.model<IUser & mongoose.Document>("User", new mongoose.Schema({
     name: String,
     medicalConditions: [String],
     allergies: [String],
@@ -46,6 +38,10 @@ export const User = mongoose.model < IUser & mongoose.Document > ("User", new mo
     animals: Number,
     spouse: Boolean,
 
+    location: [{
+        lat: Number,
+        long: Number
+    }],
     authorizationKey: String
 }));
 
@@ -56,7 +52,7 @@ export interface IFirstResponder {
     physicality: number;
 }
 
-export const FirstResponder = mongoose.model < IFirstResponder & mongoose.Document > ("FirstResponder", new mongoose.Schema({
+export const FirstResponder = mongoose.model<IFirstResponder & mongoose.Document>("FirstResponder", new mongoose.Schema({
     name: String,
     hasBoat: Boolean,
     hasCar: Boolean,
