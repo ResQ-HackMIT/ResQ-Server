@@ -41,6 +41,7 @@ apiRouter.route("/location").post(bodyParser.json(), async (request, response) =
 apiRouter.route("/triage").get(async (request, response) => {
     response.json(await triageUsers());
 });
+
 apiRouter.route("/evacuationtime").get(async (request, response) => {
     let user = await User.findOne({ "authorizationKey": request.headers.authorization });
     if (!user) {

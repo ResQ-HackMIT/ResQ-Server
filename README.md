@@ -7,7 +7,7 @@ The following routes are documented.
 - `/auth/firstresponder`
 - `/location`
 
-1. For `/auth/update-user` a valid user object, whose name is already in the database, is expected. The values will be updated. And the success of the operation returned.
+1. `/api/auth/user` is used to create a new user object. It accepts a valid JSON user and returns the success of the creation. 
 
     Expected request: 
     ```json
@@ -34,11 +34,7 @@ The following routes are documented.
     }
     ```
 
-2. `/auth/user` is used to create a new user object. It accepts a valid JSON user and returns the success of the creation. 
-
-    *See `/auth/update-user` for valid requests and returns.*
-
-3. `/auth/firstresponder` is used to create a new responder object. It accepts a JSON responder, and returns the success of the creation.
+2. `/api/auth/firstresponder` is used to create a new responder object. It accepts a JSON responder, and returns the success of the creation.
 
     Expected request:
     ```json
@@ -58,7 +54,7 @@ The following routes are documented.
     }
     ```
 
-4. `/location` is used to provide user location updates. It expects to recieve a valid JSON location, and returns the success of the update.
+3. `/api/location` is used to provide user location updates. It expects to recieve a valid JSON location, and returns the success of the update.
 
     Expected request:
     ```json
