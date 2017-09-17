@@ -18,7 +18,7 @@ const apiRouter = express.Router();
 import { authRoutes } from "./auth";
 apiRouter.use("/auth", authRoutes);
 
-import { User, triageUsers, Incident, triageAaron } from "./schema";
+import { User, triageUsers, Incident } from "./schema";
 apiRouter.route("/location").post(bodyParser.json(), async (request, response) => {
     let user = await User.findOne({ "authorizationKey": request.headers.authorization });
     if (!user) {
@@ -41,8 +41,7 @@ apiRouter.route("/location").post(bodyParser.json(), async (request, response) =
 
 apiRouter.route("/triage").get(async (request, response) => {
     const COUNT = 5;
-    // Force Aaron to be in the triage queue.
-    response.json((await triageUsers()).slice(0, COUNT), (User.findOne({"name":"Aaron Vontell"})));
+    response.json((await triageUsers()).slice(0, COUNT));
 });
 apiRouter.route("/triageall").get(async (request, response) => {
     response.json(await triageUsers());

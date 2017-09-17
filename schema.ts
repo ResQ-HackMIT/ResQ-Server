@@ -78,7 +78,7 @@ export const Incident = mongoose.model<IIncident & mongoose.Document>("Incident"
 }));
 
 export async function triageUsers(): Promise<IUser[]> {
-    let users = await User.find();
+    let users: any = await User.find();
 
     function calculateWeightedScore(user: IUser): number {
         return (
@@ -92,5 +92,7 @@ export async function triageUsers(): Promise<IUser[]> {
             -2.0409025443303404 * user.locationProximity
         );
     }
-    return users.sort((a, b) => calculateWeightedScore(b) - calculateWeightedScore(a));
+    users.sort((a, b) => calculateWeightedScore(b) - calculateWeightedScore(a));
+    // Force Aaron to be at the top of the triaged users list.
+    return users.unshift(await User.findOne({"name":"Aaron Vontell"}));
 }
