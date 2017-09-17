@@ -77,11 +77,6 @@ export const Incident = mongoose.model<IIncident & mongoose.Document>("Incident"
     description: String
 }));
 
-export async function triageAaron(): Promise<IUser> {
-    let user = await User.findOne({"name":"Aaron Vontell"});
-    return user;
-}
-
 export async function triageUsers(): Promise<IUser[]> {
     let users = await User.find();
 

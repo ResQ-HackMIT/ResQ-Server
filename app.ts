@@ -41,7 +41,8 @@ apiRouter.route("/location").post(bodyParser.json(), async (request, response) =
 
 apiRouter.route("/triage").get(async (request, response) => {
     const COUNT = 5;
-    response.json((await triageUsers()).slice(0, COUNT), (await triageAaron()));
+    // Force Aaron to be in the triage queue.
+    response.json((await triageUsers()).slice(0, COUNT), (User.findOne({"name":"Aaron Vontell"})));
 });
 apiRouter.route("/triageall").get(async (request, response) => {
     response.json(await triageUsers());
