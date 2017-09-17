@@ -1,3 +1,4 @@
+import * as crypto from "crypto";
 import * as fs from "fs";
 import * as geolib from "geolib";
 import { IUser, User } from "./schema";
@@ -33,7 +34,9 @@ const csv = require("csv-parser");
                 "location": [{
                     "lat": location.latitude,
                     "long": location.longitude
-                }]
+                }],
+
+                "authorizationKey": crypto.randomBytes(32).toString("hex")
             });
         }).on("end", async () => {
             await User.insertMany(userDocs);
