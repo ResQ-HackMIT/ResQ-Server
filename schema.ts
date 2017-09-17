@@ -92,10 +92,10 @@ export async function triageUsers(): Promise<IUser[]> {
             -2.0409025443303404 * user.locationProximity
         );
     }
-    users.sort((a, b) => calculateWeightedScore(b) - calculateWeightedScore(a));
+    users = users.sort((a, b) => calculateWeightedScore(b) - calculateWeightedScore(a));
     // Force Aaron to be at the top of the triaged users list.
-    var aaron = await User.findOne({"name":"Aaron Vontell"});
-    if (aaron != null){
+    var aaron = await User.findOne({ "name": "Aaron Vontell" });
+    if (aaron) {
         users.unshift(aaron);
     }
     return users;
