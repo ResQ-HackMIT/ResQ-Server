@@ -9,14 +9,14 @@ const csv = require("csv-parser");
     await User.collection.drop();
 
     // At Houston's airport
-    const center: geolib.PositionAsDecimal = { latitude: 29.9494083, longitude: -95.4385523 };
+    const center: geolib.PositionAsDecimal = { latitude: 29.978999, longitude: -95.336954 };
 
     let userDocs: Partial<IUser>[] = [];
     fs.createReadStream("data.csv", {encoding: "utf8"})
         .pipe(csv())
         .on("data", async (data: any) => {
             let locationProximity: number = parseInt(data.location, 10);
-            let location = geolib.computeDestinationPoint(center, Math.random() * locationProximity * 1000 + 500 * locationProximity, Math.random() * 360);
+            let location = geolib.computeDestinationPoint(center, Math.random() * locationProximity * 9000 + 8000 * locationProximity, Math.random() * 360);
 
             userDocs.push({
                 "name": data.name,
