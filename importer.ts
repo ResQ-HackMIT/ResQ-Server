@@ -38,7 +38,26 @@ const csv = require("csv-parser");
 
                 "authorizationKey": crypto.randomBytes(32).toString("hex")
             });
+            console.log(`${location.latitude},${location.longitude}`);
         }).on("end", async () => {
+            // Add persistent 
+            userDocs.push({
+                "name" : "Aaron Vontell",
+                "medicalConditions" : 2,
+                "allergies" : 2,
+                "medications" : 2,
+                "weight" : 260,
+                "height" : 71,
+                "age" : 20,
+                "kids" : 0,
+                "animals" : 2,
+                "spouse" : true,
+                "hasTransportation" : false,
+                "evacuate" : true,
+                "authorizationKey" : "5ded7ca370fbe000fd5f0cfcbafb47d1b920bcc063db9511e4be8fe09215241a",
+                "location" : []
+            });
+
             await User.insertMany(userDocs);
             console.log(`Imported ${userDocs.length} documents`);
             process.exit(0);
