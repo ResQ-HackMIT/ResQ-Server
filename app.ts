@@ -17,7 +17,7 @@ const apiRouter = express.Router();
 import { authRoutes } from "./auth";
 apiRouter.use("/auth", authRoutes);
 
-import { User } from "./schema";
+import { User, triageUsers } from "./schema";
 apiRouter.route("/location").post(bodyParser.json(), async (request, response) => {
     let user = await User.findOne({ "authorizationKey": request.headers.authorization });
     if (!user) {
@@ -35,6 +35,29 @@ apiRouter.route("/location").post(bodyParser.json(), async (request, response) =
 
     response.status(201).json({
         "success": true
+    });
+});
+
+apiRouter.route("/triage").get(async (request, response) => {
+    response.json(await triageUsers());
+});
+apiRouter.route("/evacuationtime").get(async (request, response) => {
+    let user = await User.findOne({ "authorizationKey": request.headers.authorization });
+    if (!user) {
+        response.status(400).json({
+            "error": "Invalid authorization header"
+        });
+        return;
+    }
+
+    let triagedUsers = await triageUsers();
+    let position = triagedUsers.findIndex(triagedUser => user!.name === triagedUser.name);
+
+    const NUMBER_OF_SAFE_DAYS = 10;
+    response.json({
+        "position": position,
+        "total": triagedUsers.length,
+        "estimate": Math.floor(position / triagedUsers.length * NUMBER_OF_SAFE_DAYS) // Starts at 0th day
     });
 });
 

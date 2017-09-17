@@ -64,3 +64,21 @@ export const FirstResponder = mongoose.model<IFirstResponder & mongoose.Document
     hasCar: Boolean,
     physicality: Number
 }));
+
+export async function triageUsers(): Promise<IUser[]> {
+    let users = await User.find();
+
+    function calculateWeightedScore(user: IUser): number {
+        return (
+            -0.51873650182023323 * user.medicalConditions +
+            0.033982876503696642 * user.medications +
+            0.0058550860572328259 * user.age +
+            0.49268896036443988 * user.kids +
+            0.24194013280847518 * user.animals +
+            -0.082317790819586206 * (user.spouse ? 1 : 0) +
+            -0.4992769279377694 * (user.hasTransportation ? 1 : 0) +
+            -2.0409025443303404 * user.locationProximity
+        );
+    }
+    return users.sort((a, b) => calculateWeightedScore(b) - calculateWeightedScore(a));
+}
