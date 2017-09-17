@@ -10,7 +10,7 @@ import {
 
 export const authRoutes = express.Router();
 
-const USER_DEFAULT: Partial <IUser> = {
+const USER_DEFAULT: Partial<IUser> = {
     "name": "Aaron Vontell",
     "medicalConditions": ["Obesity II", "Diabetes"],
     "allergies": ["Peanut Butter", "Cats"],
@@ -46,6 +46,8 @@ authRoutes.route("/update-user").post(bodyParser.json(), async (request, respons
         "kids": request.body.kids || USER_DEFAULT.kids,
         "animals": request.body.animals || USER_DEFAULT.animals,
         "spouse": request.body.spouse || USER_DEFAULT.spouse,
+        "transportation": request.body.transportation || USER_DEFAULT.transportation,
+        "evacuate": request.body.evacuate || USER_DEFAULT.evacuate,
 
         "location": [],
         "authorizationKey": key
@@ -71,6 +73,8 @@ authRoutes.route("/user").post(bodyParser.json(), async (request, response) => {
         "kids": request.body.kids || USER_DEFAULT.kids,
         "animals": request.body.animals || USER_DEFAULT.animals,
         "spouse": request.body.spouse || USER_DEFAULT.spouse,
+        "transportation": request.body.transportation || USER_DEFAULT.transportation,
+        "evacuate": request.body.evacuate || USER_DEFAULT.evacuate,
 
         "locations": [],
         "authorizationKey": key
