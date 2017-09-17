@@ -39,6 +39,10 @@ apiRouter.route("/location").post(bodyParser.json(), async (request, response) =
 });
 
 apiRouter.route("/triage").get(async (request, response) => {
+    const COUNT = 5;
+    response.json((await triageUsers()).slice(0, COUNT));
+});
+apiRouter.route("/triageall").get(async (request, response) => {
     response.json(await triageUsers());
 });
 
