@@ -65,6 +65,18 @@ export const FirstResponder = mongoose.model<IFirstResponder & mongoose.Document
     physicality: Number
 }));
 
+export interface IIncident {
+    status: "Clear" | "Approaching" | "In progress" | "Aftermath"
+    title: string;
+    description: string;
+}
+
+export const Incident = mongoose.model<IIncident & mongoose.Document>("Incident", new mongoose.Schema({
+    status: String,
+    title: String,
+    description: String
+}));
+
 export async function triageUsers(): Promise<IUser[]> {
     let users = await User.find();
 

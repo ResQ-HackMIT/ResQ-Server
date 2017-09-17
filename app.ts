@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as express from "express";
 import * as compression from "compression";
 import * as bodyParser from "body-parser";
@@ -17,7 +18,7 @@ const apiRouter = express.Router();
 import { authRoutes } from "./auth";
 apiRouter.use("/auth", authRoutes);
 
-import { User, triageUsers } from "./schema";
+import { User, triageUsers, Incident } from "./schema";
 apiRouter.route("/location").post(bodyParser.json(), async (request, response) => {
     let user = await User.findOne({ "authorizationKey": request.headers.authorization });
     if (!user) {
@@ -65,8 +66,30 @@ apiRouter.route("/evacuationtime").get(async (request, response) => {
         "estimate": Math.floor(position / triagedUsers.length * NUMBER_OF_SAFE_DAYS) // Starts at 0th day
     });
 });
+apiRouter.route("/status").get(async (request, response) => {
+    response.json(await Incident.findOne());
+});
 
 app.use("/api", apiRouter);
+
+app.route("/status").get((request, response) => {
+    fs.readFile("disasterstatus.html", {"encoding": "utf8"}, (err, data) => {
+        if (err) {
+            throw err;
+        }
+        response.send(data);
+    });
+}).post(bodyParser.urlencoded({ extended: false }), async (request, response) => {
+    let incident = await Incident.findOne();
+    if (!incident) {
+        incident = new Incident();
+    }
+    incident.status = request.body.status;
+    incident.title = request.body.title;
+    incident.description = request.body.description;
+    await incident.save();
+    response.redirect("/status");
+});
 
 app.route("/version").get((request, response) => {
 	response.json({
