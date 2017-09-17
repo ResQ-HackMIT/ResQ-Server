@@ -12,16 +12,16 @@ export const authRoutes = express.Router();
 
 const USER_DEFAULT: Partial<IUser> = {
     "name": "Aaron Vontell",
-    "medicalConditions": ["Obesity II", "Diabetes"],
-    "allergies": ["Peanut Butter", "Cats"],
-    "medications": ["Laxatives", "Penicillin"],
+    // "medicalConditions": ["Obesity II", "Diabetes"],
+    // "allergies": ["Peanut Butter", "Cats"],
+    // "medications": ["Laxatives", "Penicillin"],
     "weight": 260,
     "height": 71,
     "age": 20,
     "kids": 0,
     "animals": 0,
     "spouse": false,
-    "transportation": false,
+    "hasTransportation": false,
     "evacuate": true
 };
 
@@ -31,9 +31,15 @@ authRoutes.route("/update-user").post(bodyParser.json(), async (request, respons
     const key = crypto.randomBytes(32).toString("hex");
 
     // Use the name to search for the old entry.
-    var toUpdate = new User({
+    let toUpdate = await User.findOne({
         "name": request.body.name
-    }).findOne();
+    });
+    if (!toUpdate) {
+        response.status(400).json({
+            "error": "Name not found"
+        });
+        return;
+    }
 
     // If anything in the request changed, we just set the new value.
     toUpdate.set({
@@ -46,7 +52,7 @@ authRoutes.route("/update-user").post(bodyParser.json(), async (request, respons
         "kids": request.body.kids || USER_DEFAULT.kids,
         "animals": request.body.animals || USER_DEFAULT.animals,
         "spouse": request.body.spouse || USER_DEFAULT.spouse,
-        "transportation": request.body.transportation || USER_DEFAULT.transportation,
+        "hasTransportation": request.body.hasTransportation || USER_DEFAULT.hasTransportation,
         "evacuate": request.body.evacuate || USER_DEFAULT.evacuate,
 
         "location": [],
@@ -73,7 +79,7 @@ authRoutes.route("/user").post(bodyParser.json(), async (request, response) => {
         "kids": request.body.kids || USER_DEFAULT.kids,
         "animals": request.body.animals || USER_DEFAULT.animals,
         "spouse": request.body.spouse || USER_DEFAULT.spouse,
-        "transportation": request.body.transportation || USER_DEFAULT.transportation,
+        "hasTransportation": request.body.hasTransportation || USER_DEFAULT.hasTransportation,
         "evacuate": request.body.evacuate || USER_DEFAULT.evacuate,
 
         "locations": [],
