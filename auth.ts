@@ -28,41 +28,7 @@ const USER_DEFAULT: Partial<IUser> = {
 // Recieve: Expects to recieve a full person object as a request.
 // Return: the sucess of the update operation and a new secret key.
 authRoutes.route("/update-user").post(bodyParser.json(), async (request, response) => {
-    const key = crypto.randomBytes(32).toString("hex");
 
-    // Use the name to search for the old entry.
-    let toUpdate = await User.findOne({
-        "name": request.body.name
-    });
-    if (!toUpdate) {
-        response.status(400).json({
-            "error": "Name not found"
-        });
-        return;
-    }
-
-    // If anything in the request changed, we just set the new value.
-    toUpdate.set({
-        "medicalConditions": request.body.medicalConditions || USER_DEFAULT.medicalConditions,
-        "allergies": request.body.allergies || USER_DEFAULT.allergies,
-        "medications": request.body.medications || USER_DEFAULT.medications,
-        "weight": request.body.weight || USER_DEFAULT.weight,
-        "height": request.body.height || USER_DEFAULT.height,
-        "age": request.body.age || USER_DEFAULT.age,
-        "kids": request.body.kids || USER_DEFAULT.kids,
-        "animals": request.body.animals || USER_DEFAULT.animals,
-        "spouse": request.body.spouse || USER_DEFAULT.spouse,
-        "hasTransportation": request.body.hasTransportation || USER_DEFAULT.hasTransportation,
-        "evacuate": request.body.evacuate || USER_DEFAULT.evacuate,
-
-        "location": [],
-        "authorizationKey": key
-    });
-
-    response.status(201).json({
-        "success": true,
-        "authorizationKey": key
-    });
 });
 
 authRoutes.route("/user").post(bodyParser.json(), async (request, response) => {
@@ -89,6 +55,33 @@ authRoutes.route("/user").post(bodyParser.json(), async (request, response) => {
     response.status(201).json({
         "success": true,
         "authorizationKey": key
+    });
+}).patch(bodyParser.json(), async (request, response) => {
+    let user = await User.findOne({ "authorizationKey": request.headers.authorization });
+    if (!user) {
+        response.status(400).json({
+            "error": "Invalid authorization header"
+        });
+        return;
+    }
+
+    // If anything in the request changed, we just set the new value.
+    user.set({
+        "medicalConditions": request.body.medicalConditions || USER_DEFAULT.medicalConditions,
+        "allergies": request.body.allergies || USER_DEFAULT.allergies,
+        "medications": request.body.medications || USER_DEFAULT.medications,
+        "weight": request.body.weight || USER_DEFAULT.weight,
+        "height": request.body.height || USER_DEFAULT.height,
+        "age": request.body.age || USER_DEFAULT.age,
+        "kids": request.body.kids || USER_DEFAULT.kids,
+        "animals": request.body.animals || USER_DEFAULT.animals,
+        "spouse": request.body.spouse || USER_DEFAULT.spouse,
+        "hasTransportation": request.body.hasTransportation || USER_DEFAULT.hasTransportation,
+        "evacuate": request.body.evacuate || USER_DEFAULT.evacuate
+    });
+
+    response.status(200).json({
+        "success": true
     });
 });
 
