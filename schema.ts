@@ -21,7 +21,9 @@ export interface IUser {
     kids: number;
     animals: number;
     spouse: boolean;
+    transportation: boolean;
 
+    evacuate: boolean;
     locations: ILocation[];
     authorizationKey: string;
 }
@@ -37,7 +39,9 @@ export const User = mongoose.model<IUser & mongoose.Document>("User", new mongoo
     kids: Number,
     animals: Number,
     spouse: Boolean,
+    transportation: Boolean,
 
+    evacuate: Boolean,
     location: [{
         lat: Number,
         long: Number
