@@ -26,7 +26,8 @@ apiRouter.route("/location").post(bodyParser.json(), async (request, response) =
         });
         return;
     }
-    user.locations.push({
+    
+    user.location.push({
         "lat": request.body.lat,
         "long": request.body.long
     });

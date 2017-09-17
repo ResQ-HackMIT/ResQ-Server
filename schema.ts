@@ -24,7 +24,7 @@ export interface IUser {
     transportation: boolean;
 
     evacuate: boolean;
-    locations: ILocation[];
+    location: ILocation[];
     authorizationKey: string;
 }
 

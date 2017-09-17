@@ -47,7 +47,7 @@ authRoutes.route("/update-user").post(bodyParser.json(), async (request, respons
         "animals": request.body.animals || USER_DEFAULT.animals,
         "spouse": request.body.spouse || USER_DEFAULT.spouse,
 
-        "locations": [],
+        "location": [],
         "authorizationKey": key
     });
 
@@ -75,14 +75,14 @@ authRoutes.route("/user").post(bodyParser.json(), async (request, response) => {
         "locations": [],
         "authorizationKey": key
     }).save();
-
+    
     response.status(201).json({
         "success": true,
         "authorizationKey": key
     });
 });
 
-const FIRST_RESPONDER_DEFAULT: Partial <IFirstResponder> = {
+const FIRST_RESPONDER_DEFAULT: Partial<IFirstResponder> = {
     "name": "Cooper Pellaton",
     "hasBoat": false,
     "hasCar": false,
