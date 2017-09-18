@@ -1,6 +1,6 @@
 # ResQ-Server
 *Winner of [HACKMIT](hackmit.org) '17 Made From Scratch Prize.*
-
+![](Assets/Header/DevPost-Header(Big).png)
 ## Screenshots
 ![](Assets/Framed-Screenshots/ResQ-Beacon.png)
 Sample of the ResQ User beacon.
